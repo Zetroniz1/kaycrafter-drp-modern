@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2f3136; /* Цвет темы Discord */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        h3 {
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .btn {
+            background-color: #ed4245; /* Красный цвет */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #c03537;
+        }
+        .btn.start {
+            background-color: #5865f2; /* Синий цвет Discord для запуска */
+        }
+        .btn.start:hover {
+            background-color: #4752c4;
+        }
+        #status-text {
+            font-size: 12px;
+            color: #b9bbbe;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h3 id="title">Discord RPC Активен</h3>
+    <button id="rpc-btn" class="btn">Остановить</button>
+    <div id="status-text">Статус: Подключение...</div>
+
+    <script>
+        const btn = document.getElementById('rpc-btn');
+        const title = document.getElementById('title');
+        const statusText = document.getElementById('status-text');
+
+        btn.addEventListener('click', () => {
+            window.electronAPI.toggleRPC();
+        });
+
+        // Слушаем изменения статуса от главного процесса
+        window.electronAPI.onRPCStatus((status) => {
+            if (status === 'running') {
+                title.innerText = 'Партнёрка активна';
+                btn.innerText = 'Остановить';
+                btn.className = 'btn';
+                statusText.innerText = 'Статус: Работает';
+            } else if (status === 'stopped') {
+                title.innerText = 'Партнёрка неактивна';
+                btn.innerText = 'Запустить';
+                btn.className = 'btn start';
+                statusText.innerText = 'Статус: Отключен';
+            } else if (status === 'error') {
+                statusText.innerText = 'Ошибка! Проверьте, запущен ли Discord.';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "partnerka-kaycrafter",
+  "version": "1.0.0",
+  "description": "Kaycrafter partner",
+  "author": "zetronizz",
+  "main": "main.js",
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --linux AppImage"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.zetronizz.partnerka",
+    "productName": "Партнёрка Kaycrafter",
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    }
+  }
+}
